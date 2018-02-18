@@ -1,4 +1,4 @@
-require "semantic_similarity"
+require 'semantic_similarity'
 
 FactoryBot.define do
   factory :semantic_similarity, class: SemanticSimilarity do
