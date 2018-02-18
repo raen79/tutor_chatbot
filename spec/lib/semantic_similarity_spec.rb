@@ -17,19 +17,19 @@ RSpec.describe SemanticSimilarity do
           HEREDOC
         }
         subject { FactoryBot.build :semantic_similarity, first_question: first_question }
-        it { is_expected.to raise_error(ArgumentError, 'first_question must be lower than or equal to 140 characters.') }
+        it { expect{ subject }.to raise_error(ArgumentError, 'first_question must be lower than or equal to 140 characters.') }
       end
 
       context 'when doesn\'t end in a question mark' do
         subject { FactoryBot.build :semantic_similarity, first_question: 'Do you know what the value of pi is.' }
-        it { is_expected.to raise_error(ArgumentError, 'first_question must end in a question mark.') }
+        it { expect{ subject }.to raise_error(ArgumentError, 'first_question must end in a question mark.') }
       end
     end
 
     describe 'second question' do
       context 'when is less than 3 characters' do
         subject { FactoryBot.build :semantic_similarity, second_question: 'a?' }
-        it { is_expected.to raise_error(ArgumentError, 'second_question must be greater than or equal to 3 characters.') }        
+        it { expect{ subject }.to raise_error(ArgumentError, 'second_question must be greater than or equal to 3 characters.') }        
       end
 
       context 'when is greater than 140 characters' do
@@ -40,12 +40,12 @@ RSpec.describe SemanticSimilarity do
           HEREDOC
         }
         subject { FactoryBot.build :semantic_similarity, second_question: second_question }
-        it { is_expected.to raise_error(ArgumentError, 'second_question must be lower than or equal to 140 characters.') }
+        it { expect{ subject }.to raise_error(ArgumentError, 'second_question must be lower than or equal to 140 characters.') }
       end
 
       context 'when doesn\'t end in a question mark' do
         subject { FactoryBot.build :semantic_similarity, second_question: 'Do you know what the value of pi is.' }
-        it { is_expected.to raise_error(ArgumentError, 'second_question must end in a question mark.') }
+        it { expect{ subject }.to raise_error(ArgumentError, 'second_question must end in a question mark.') }
       end
     end
   end
