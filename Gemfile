@@ -28,6 +28,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'rspec-rails', '~> 3.7', groups: [:development, :test]
+gem 'lemmatizer'
+gem 'rwordnet'
+gem 'factory_bot_rails', groups: [:development, :test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
