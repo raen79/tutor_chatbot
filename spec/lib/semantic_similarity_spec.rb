@@ -50,18 +50,18 @@ RSpec.describe SemanticSimilarity do
     end
   end
 
-  describe 'instance attribute' do
+  describe 'instance methods' do
     describe 'score' do
       let(:semantic_similarity) { FactoryBot.build :semantic_similarity }
       subject { semantic_similarity.score }
       it { is_expected.to be_a(Float) }
-      it { is_expected.to be >= 0.0 }
+      it { is_expected.to be => 0.0 }
       it { is_expected.to be <= 1.0 }
     end
 
     describe 'same_question?' do
       context 'when the first question is `Do you know if this film is available in color?`' do
-        let(:first_question) { "Do you know if this film is available in color?" }
+        let(:first_question) { 'Do you know if this film is available in color?' }
 
         context 'and the second question is `Are you aware whether this movie exists not in black and white?`' do
           let(:second_question) { 'Are you aware whether this movie exists not in black and white?' }
@@ -80,3 +80,5 @@ RSpec.describe SemanticSimilarity do
     end
   end
 end
+
+#TODO filter out words
