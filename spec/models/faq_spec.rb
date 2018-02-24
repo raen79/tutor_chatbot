@@ -33,11 +33,23 @@ RSpec.describe Faq, type: :model do
         let(:question) { 'Do you know what the value of pi is.' }
         it { is_expected.not_to be_valid }
       end
+
+      context 'when not included' do
+        let(:question) { nil }
+        it { is_expected.not_to be_valid }
+      end
     end
     
     describe '#answer' do
+      subject { FactoryBot.build :faq, :answer => answer }
+
       context 'when < 3 chars' do
-        subject { FactoryBot.build :faq, :answer => 'a' }
+        let(:answer) { a }
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'when not included' do
+        let(:answer) { nil }
         it { is_expected.not_to be_valid }
       end
     end
