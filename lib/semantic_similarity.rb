@@ -27,25 +27,26 @@ class SemanticSimilarity
   end
 
   def score
-    count = 0
+    0
+    # count = 0
 
-    @first_question_plain_array.each do |first_question_word|
-      synonyms = Datamuse.words(ml: first_question_word, max: 100)
-      @second_question_plain_array.each do |second_question_word|
-        if first_question_word == second_question_word
-          count += 1
-          break
-        end  
+    # @first_question_plain_array.each do |first_question_word|
+    #   synonyms = Datamuse.words(ml: first_question_word, max: 100)
+    #   @second_question_plain_array.each do |second_question_word|
+    #     if first_question_word == second_question_word
+    #       count += 1
+    #       break
+    #     end  
         
-        words_match = synonyms.select { |synonym| synonym['word'] == second_question_word }.first
+    #     words_match = synonyms.select { |synonym| synonym['word'] == second_question_word }.first
 
-        if words_match != nil && words_match["score"] >= 20000
-          count += 1
-          break
-        end
-      end
-    end
+    #     if words_match != nil && words_match["score"] >= 20000
+    #       count += 1
+    #       break
+    #     end
+    #   end
+    # end
     
-    count.to_f / @first_question_plain_array.size.to_f
+    # count.to_f / @first_question_plain_array.size.to_f
   end
 end
