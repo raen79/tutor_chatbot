@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'rubymuse'
 
 RSpec.describe Synonym, type: :model do
   describe 'Validation' do
@@ -21,7 +20,7 @@ RSpec.describe Synonym, type: :model do
       end
 
       context 'when an item of the array is not a string' do
-        let(:words) { [12, 'hello'] }
+        let(:words) { [2, 'hello'] }
         it { is_expected.not_to be_valid }
       end
     end
@@ -33,29 +32,27 @@ RSpec.describe Synonym, type: :model do
 
     context 'when not valid' do
       subject { FactoryBot.create :synonym, :word => 'an' }
-      it { expect { subject }.to raise_error(ArgumentError).and change { Synonym.count }.by(0) }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and change { Synonym.count }.by(0) }
     end
   end
 
-  describe '.search' do
+  describe '.in_sentence' do
     before(:each) do
-      allow(Datamuse)
-        .to receive(:words)
-        .with(:ml => 'film')
-        .and_return([{'word' => 'movie','score' => 56808,'tags' => ['syn', 'n']}])
-
-      allow(Datamuse)
-        .to receive(:words)
-        .with(:ml => 'availability')
-        .and_return([{'word' => 'accessible', 'score' => 37788, 'tags' => ['syn', 'adj']}])
-
-      allow(Datamuse)
-        .to receive(:words)
-        .with(:ml => 'color')
-        .and_return([{'word' => 'panchromatic','score' => 97284,'tags' => ['syn','adj']}])
+      allow(Datamuse).to receive(:words) do |opts|
+        case opts[:ml]
+        when 'film'
+          [{ 'word' => 'movie', 'score' => 56808, 'tags' => ['syn', 'n'] }]
+        when 'availability'
+          [{ 'word' => 'accessible', 'score' => 37788, 'tags' => ['syn', 'adj'] }]
+        when 'color'
+          [{ 'word' => 'panchromatic', 'score' => 97284,'tags' => ['syn','adj'] }]
+        else
+          []
+        end
+      end
     end
 
-    subject { Synonym.search(sentence) }
+    subject { Synonym.in_sentence(sentence) }
 
     context 'when sentence < 3 chars' do
       let(:sentence) { 'a?' }
@@ -64,15 +61,18 @@ RSpec.describe Synonym, type: :model do
 
     context 'when sentence contains no nouns or adjectives' do
       let(:sentence) { 'This not working' }
-      it { is_expected.to eq([]) }
+      it { is_expected.to be_empty }
     end
 
     context 'when sentence is valid' do
-      let(:sentence) { 'Do you know this film\'s availablity in color?' }
-      let(:synonyms_of_film) { FactoryBot.build :synonym, :word => 'film', :words => ['movie'] }
-      let(:synonyms_of_availability) { FactoryBot.build :synonym, :word => 'availability', :words => ['accessible'] }
-      let(:synonyms_of_color) { FactoryBot.build :synonym, :word => 'color', :words => 'panchromatic' }
-      it { is_expected.to contain_exactly(synonyms_of_film, synonyms_of_color, synonyms_of_availability) }
+      let(:sentence) { 'Do you know this film\'s availability in color?' }
+      
+      it 'should return an array of appropriate instances of Synonym' do
+        is_expected.to all(be_a(Synonym))
+        expect(subject.find { |synonym| synonym.word == 'film' && synonym.words == ['movie'] }).not_to be_nil
+        expect(subject.find { |synonym| synonym.word == 'availability' && synonym.words == ['accessible'] }).not_to be_nil
+        expect(subject.find { |synonym| synonym.word == 'color' && synonym.words == ['panchromatic'] }).not_to be_nil
+      end
     end
   end
 end

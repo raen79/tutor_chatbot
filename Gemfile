@@ -26,7 +26,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'rack-cors', :require => 'rack/cors'
-gem 'rubymuse', :require => false
+gem 'rubymuse'
+gem 'engtagger'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
