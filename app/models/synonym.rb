@@ -1,5 +1,7 @@
 class Synonym < ApplicationRecord
-  validates :word, :length => { :minimum => 3 }
+  before_validation :downcase_word
+
+  validates :word, :length => { :minimum => 3 }, :uniqueness => { :case_sensitive => false }
   validate :words_validations
 
   def self.in_sentence(sentence)
@@ -12,8 +14,14 @@ class Synonym < ApplicationRecord
                     tagger.get_adjectives(tagged_sentence).keys
 
     relevant_words.map do |word|
-      synonyms = Datamuse.words(ml: word).map { |synonym| synonym['word'] }
-      Synonym.new(word: word, words: synonyms)
+      existing_synonyms = Synonym.where(:word => word)
+      
+      if existing_synonyms.blank?
+        synonyms = Datamuse.words(ml: word).map { |synonym| synonym['word'] }
+        Synonym.new(:word => word, :words => synonyms)
+      else
+        existing_synonyms.first
+      end
     end
   end
 
@@ -28,6 +36,12 @@ class Synonym < ApplicationRecord
         end
       else
         errors.add(:words, 'must be array')
+      end
+    end
+
+    def downcase_word
+      if !word.blank? && word.kind_of?(String)
+        word.downcase!
       end
     end
 

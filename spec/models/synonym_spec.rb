@@ -3,11 +3,22 @@ require 'rails_helper'
 RSpec.describe Synonym, type: :model do
   describe 'Validation' do
     describe '#word' do
+      let!(:synonym) { FactoryBot.create :synonym, :word => 'Test' }
       subject { FactoryBot.build :synonym, :word => word }
 
       context 'when < 3 chars' do
         let(:word) { 'an' }
         it { is_expected.not_to be_valid }
+      end
+
+      context 'when not unique' do
+        let(:word) { 'test' }
+        it { is_expected.not_to be_valid }
+      end
+      
+      context 'when includes capital letters' do
+        let(:word) { 'HeLLo' }
+        it { is_expected.to be_valid.and have_attributes(:word => 'hello') }
       end
     end
 
@@ -42,8 +53,6 @@ RSpec.describe Synonym, type: :model do
         case opts[:ml]
         when 'film'
           [{ 'word' => 'movie', 'score' => 56808, 'tags' => ['syn', 'n'] }]
-        when 'availability'
-          [{ 'word' => 'accessible', 'score' => 37788, 'tags' => ['syn', 'adj'] }]
         when 'color'
           [{ 'word' => 'panchromatic', 'score' => 97284,'tags' => ['syn','adj'] }]
         else
@@ -52,6 +61,7 @@ RSpec.describe Synonym, type: :model do
       end
     end
 
+    let!(:synonym_of_availability) { FactoryBot.create :synonym, :word => 'availability', :words => ['accessible'] }
     subject { Synonym.in_sentence(sentence) }
 
     context 'when sentence < 3 chars' do
@@ -65,13 +75,24 @@ RSpec.describe Synonym, type: :model do
     end
 
     context 'when sentence is valid' do
-      let(:sentence) { 'Do you know this film\'s availability in color?' }
-      
-      it 'should return an array of appropriate instances of Synonym' do
-        is_expected.to all(be_a(Synonym))
-        expect(subject.find { |synonym| synonym.word == 'film' && synonym.words == ['movie'] }).not_to be_nil
-        expect(subject.find { |synonym| synonym.word == 'availability' && synonym.words == ['accessible'] }).not_to be_nil
-        expect(subject.find { |synonym| synonym.word == 'color' && synonym.words == ['panchromatic'] }).not_to be_nil
+      context 'and includes a relevant word that has previously been saved' do
+        let(:sentence) { 'Do you know if this film\'s in color?' }
+
+        it 'should return an array of appropriate instances of Synonym' do
+          is_expected.to all(be_a(Synonym))
+          expect(subject.find { |synonym| synonym.word == 'film' && synonym.words == ['movie'] }).not_to be_nil
+          expect(subject.find { |synonym| synonym.word == 'color' && synonym.words == ['panchromatic'] }).not_to be_nil
+        end
+      end
+
+      context 'and includes only new words' do
+        let(:sentence) { 'Do you know this film\'s availability?' }
+
+        it 'should return an array of appropriate instances of Synonym' do
+          is_expected.to all(be_a(Synonym))
+          expect(subject.find { |synonym| synonym.word == 'film' && synonym.words == ['movie'] }).not_to be_nil
+          expect(subject.find { |synonym| synonym.word == 'availability' && synonym.words == ['accessible'] }).not_to be_nil
+        end
       end
     end
   end
