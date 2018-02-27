@@ -33,11 +33,6 @@ RSpec.describe Faq, type: :model do
         let(:question) { 'Do you know what the value of pi is.' }
         it { is_expected.not_to be_valid }
       end
-
-      context 'when not included' do
-        let(:question) { nil }
-        it { is_expected.not_to be_valid }
-      end
     end
     
     describe '#answer' do
@@ -47,24 +42,17 @@ RSpec.describe Faq, type: :model do
         let(:answer) { a }
         it { is_expected.not_to be_valid }
       end
-
-      context 'when not included' do
-        let(:answer) { nil }
-        it { is_expected.not_to be_valid }
-      end
     end
 
     context 'when valid' do
       subject { FactoryBot.create :faq, :question => 'Do you know if this film is available in color?' }
-      it { is_expected.to be_valid }
       it { expect { subject }.to change { Faq.count }.by(1) }
       it { is_expected.to have_attributes(:synonyms => a_collection_containing_exactly('film', 'available', 'color', 'know')) }
     end
 
     context 'when not valid' do
       subject { FactoryBot.create :faq, :question => 'a?' }
-      it { is_expected.not_to be_valid }
-      it { expect { subject }.not_to change { Faq.count } }
+      it { expect { subject }.to raise_error.and change { Faq.count }.by(0) }
     end
   end
 

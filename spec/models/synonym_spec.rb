@@ -9,11 +9,6 @@ RSpec.describe Synonym, type: :model do
         let(:word) { 'an' }
         it { is_expected.not_to be_valid }
       end
-
-      context 'when not included' do
-        let(:word) { nil }
-        it { is_expected.not_to be_valid }
-      end
     end
 
     describe '#words' do
@@ -28,23 +23,25 @@ RSpec.describe Synonym, type: :model do
         let(:words) { [12, 'hello'] }
         it { is_expected.not_to be_valid }
       end
-
-      context 'when not included' do
-        let(:words) { nil }
-        it { is_expected.not_to be_valid }
-      end
     end
 
     context 'when valid' do
       subject { FactoryBot.create :synonym }
-      it { is_expected.to be_valid }
       it { expect { subject }.to change { Synonym.count }.by(1) }
     end
 
     context 'when not valid' do
       subject { FactoryBot.create :faq, :word => 'an' }
-      it { is_expected.not_to be_valid }
-      it { expect { subject }.not_to change { Synonym.count } }
+      it { expect { subject }.to raise_error.and change { Synonym.count }.by(0) }
+    end
+  end
+
+  describe '.search' do
+    subject { Synonym.search('Do you know if this film is available in color?') }
+
+    context 'when user\'s question < 3 chars' do
+      let(:user_question) { 'a?' }
+      it { is_expected.to eq('Your question must be greater than or equal to 3 characters.') }
     end
   end
 end
