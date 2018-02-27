@@ -1,12 +1,13 @@
 require 'rails_helper'
+require 'rubymuse'
 
 RSpec.describe Faq, type: :model do
   before(:each) do
-    datamuse_return_hash = [{"word" => "tinnitus", "score" => 51691, "tags" => ["syn","n"]},
-                            {"word" => "ring", "score" => 28491, "tags" => ["n"]},
-                            {"word" => "cinchonism", "score" => 28392, "tags" => ["n"]},
-                            {"word" => "acouasm", "score" => 28091},
-                            {"word" => "rings","score" => 28091,"tags" => ["n"]}]
+    datamuse_return_hash = [{'word' => 'tinnitus', 'score' => 51691, 'tags' => ['syn','n']},
+                            {'word' => 'ring', 'score' => 28491, 'tags' => ['n']},
+                            {'word' => 'cinchonism', 'score' => 28392, 'tags' => ['n']},
+                            {'word' => 'acouasm', 'score' => 28091},
+                            {'word' => 'rings','score' => 28091,'tags' => ['n']}]
     allow(Datamuse).to receive(:words).and_return(datamuse_return_hash)
   end
 
@@ -39,7 +40,7 @@ RSpec.describe Faq, type: :model do
       subject { FactoryBot.build :faq, :answer => answer }
 
       context 'when < 3 chars' do
-        let(:answer) { a }
+        let(:answer) { 'a' }
         it { is_expected.not_to be_valid }
       end
     end
@@ -47,12 +48,17 @@ RSpec.describe Faq, type: :model do
     context 'when valid' do
       subject { FactoryBot.create :faq, :question => 'Do you know if this film is available in color?' }
       it { expect { subject }.to change { Faq.count }.by(1) }
-      it { is_expected.to have_attributes(:synonyms => a_collection_containing_exactly('film', 'available', 'color', 'know')) }
+      it do
+        is_expected.to have_attributes(:synonyms => a_collection_containing_exactly(an_object_having_attributes(:word => 'film'),
+                                                                                    an_object_having_attributes(:word => 'available'),
+                                                                                    an_object_having_attributes(:word => 'color'),
+                                                                                    an_object_having_attributes(:word => 'know')))
+      end
     end
 
     context 'when not valid' do
       subject { FactoryBot.create :faq, :question => 'a?' }
-      it { expect { subject }.to raise_error.and change { Faq.count }.by(0) }
+      it { expect { subject }.to raise_error(ArgumentError).and change { Faq.count }.by(0) }
     end
   end
 
