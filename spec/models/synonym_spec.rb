@@ -6,8 +6,8 @@ RSpec.describe Synonym, type: :model do
       let!(:synonym) { FactoryBot.create :synonym, :word => 'Test' }
       subject { FactoryBot.build :synonym, :word => word }
 
-      context 'when < 3 chars' do
-        let(:word) { 'an' }
+      context 'when < 2 chars' do
+        let(:word) { 'a' }
         it { is_expected.not_to be_valid }
       end
 
@@ -42,7 +42,7 @@ RSpec.describe Synonym, type: :model do
     end
 
     context 'when not valid' do
-      subject { FactoryBot.create :synonym, :word => 'an' }
+      subject { FactoryBot.create :synonym, :word => 'a' }
       it { expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and change { Synonym.count }.by(0) }
     end
   end

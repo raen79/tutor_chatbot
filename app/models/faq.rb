@@ -12,20 +12,20 @@ class Faq < ApplicationRecord
     return 'Your question must be lower than or equal to 140 characters.' if question.length > 140
     return 'Your question must end in a question mark.' unless question.last == '?'
 
-    tagger = EngTagger.new
-    tagged_question = tagger.add_tags(question.downcase)
-    relevant_words = tagger.get_nouns(tagged_question).keys +
-                    tagger.get_proper_nouns(tagged_question).keys +
-                    tagger.get_adjectives(tagged_question).keys
-
+    tagger = EngTagger::Synonyms.new(question)
     possible_answers = []
-    
-    relevant_words.each do |word|
+
+    tagger.get_relevant_words.each do |word|
       faqs = Faq.joins(:synonyms).where("'#{word}' = ANY (synonyms.words) OR synonyms.word = '#{word}'")
       answers = faqs.map { |faq| faq.answer }
-      possible_answers = possible_answers | answers
-    end
 
+      if (possible_answers & answers).blank?
+        possible_answers = possible_answers | answers
+      else
+        possible_answers = possible_answers & answers
+      end
+    end
+    
     possible_answers
   end
 

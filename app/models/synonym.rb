@@ -3,21 +3,17 @@ class Synonym < ApplicationRecord
 
   has_and_belongs_to_many :faqs
 
-  validates :word, :length => { :minimum => 3 }, :uniqueness => { :case_sensitive => false }
+  validates :word, :length => { :minimum => 2 }, :uniqueness => { :case_sensitive => false }
   validate :words_validations
 
   def self.in_sentence(sentence)
     raise ArgumentError, 'sentence must be >= 3 chars' if sentence.length < 3
 
-    tagger = EngTagger.new
-    tagged_sentence = tagger.add_tags(sentence.downcase)
-    relevant_words = tagger.get_nouns(tagged_sentence).keys +
-                    tagger.get_proper_nouns(tagged_sentence).keys +
-                    tagger.get_adjectives(tagged_sentence).keys
+    tagger = EngTagger::Synonyms.new(sentence)
 
-    relevant_words.map do |word|
+    tagger.get_relevant_words.uniq.map do |word|
       existing_synonyms = Synonym.where(:word => word)
-      
+
       if existing_synonyms.blank?
         synonyms = Datamuse.words(ml: word).map { |synonym| synonym['word'] }
         Synonym.new(:word => word, :words => synonyms)
