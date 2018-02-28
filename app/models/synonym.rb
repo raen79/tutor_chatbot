@@ -1,11 +1,13 @@
 class Synonym < ApplicationRecord
   before_validation :downcase_word
 
+  has_and_belongs_to_many :faqs
+
   validates :word, :length => { :minimum => 3 }, :uniqueness => { :case_sensitive => false }
   validate :words_validations
 
   def self.in_sentence(sentence)
-    raise(ArgumentError, 'sentence must be >= 3 chars') if sentence.length < 3
+    raise ArgumentError, 'sentence must be >= 3 chars' if sentence.length < 3
 
     tagger = EngTagger.new
     tagged_sentence = tagger.add_tags(sentence.downcase)

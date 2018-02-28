@@ -47,23 +47,36 @@ RSpec.describe Faq, type: :model do
     context 'when valid' do
       subject { FactoryBot.create :faq, :question => 'Do you know if this film is available in color?' }
       it { expect { subject }.to change { Faq.count }.by(1) }
-      it 'should have an association `synonyms` with apporpriate instances of Synonym' do
-        is_expected.to all(be_a(Synonym))
+      it 'should have an association `synonyms` with appropriate instances of Synonym' do
         expect(subject.synonyms).to all(be_a(Synonym))
         expect(subject.synonyms.find { |synonym| synonym.word == 'film' }).not_to be_nil
         expect(subject.synonyms.find { |synonym| synonym.word == 'available' }).not_to be_nil
         expect(subject.synonyms.find { |synonym| synonym.word == 'color' }).not_to be_nil
-        expect(subject.synonyms.find { |synonym| synonym.word == 'know' }).not_to be_nil
       end
     end
 
     context 'when not valid' do
       subject { FactoryBot.create :faq, :question => 'a?' }
-      it { expect { subject }.to raise_error(ArgumentError).and change { Faq.count }.by(0) }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and change { Faq.count }.by(0) }
     end
   end
 
   describe '.find_answer' do
+    before(:each) do
+      allow(Datamuse).to receive(:words) do |opts|
+        case opts[:ml]
+        when 'film'
+          [{ 'word' => 'movie', 'score' => 56808, 'tags' => ['syn', 'n'] }]
+        when 'color'
+          [{ 'word' => 'panchromatic', 'score' => 97284,'tags' => ['syn','adj'] }]
+        when 'available'
+          [{ 'word' => 'availability', 'score' => 97284,'tags' => ['syn','adj'] }]
+        else
+          []
+        end
+      end
+    end
+
     let!(:expected_faq) do
       FactoryBot.create :faq,
                         :question => 'Do you know if this film is available in color?',
@@ -93,8 +106,8 @@ RSpec.describe Faq, type: :model do
     end
 
     context 'when user\'s question is valid' do
-      let(:user_question) { 'Do you know if this film is available in color?' }
-      it { is_expected.to eq('Yes, but you\'ll never know') }
+      let(:user_question) { 'Are you aware of this movie\'s availability in color?' }
+      it { is_expected.to eq(['Yes, but you\'ll never know']) }
     end
   end
 end

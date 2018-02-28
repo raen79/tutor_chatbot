@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219130635) do
+ActiveRecord::Schema.define(version: 20180227235333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 20180219130635) do
     t.string "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "faqs_synonyms", id: false, force: :cascade do |t|
+    t.bigint "synonym_id", null: false
+    t.bigint "faq_id", null: false
+    t.index ["faq_id", "synonym_id"], name: "index_faqs_synonyms_on_faq_id_and_synonym_id"
+    t.index ["synonym_id", "faq_id"], name: "index_faqs_synonyms_on_synonym_id_and_faq_id"
   end
 
   create_table "synonyms", force: :cascade do |t|
