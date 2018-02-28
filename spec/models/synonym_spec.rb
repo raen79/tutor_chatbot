@@ -5,12 +5,7 @@ RSpec.describe Synonym, type: :model do
     describe '#word' do
       let!(:synonym) { FactoryBot.create :synonym, :word => 'Test' }
       subject { FactoryBot.build :synonym, :word => word }
-
-      context 'when < 2 chars' do
-        let(:word) { 'a' }
-        it { is_expected.not_to be_valid }
-      end
-
+      
       context 'when not unique' do
         let(:word) { 'test' }
         it { is_expected.not_to be_valid }

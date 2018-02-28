@@ -3,7 +3,7 @@ class Synonym < ApplicationRecord
 
   has_and_belongs_to_many :faqs
 
-  validates :word, :length => { :minimum => 2 }, :uniqueness => { :case_sensitive => false }
+  validates :word, :uniqueness => { :case_sensitive => false }
   validate :words_validations
 
   def self.in_sentence(sentence)
