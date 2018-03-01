@@ -12,27 +12,7 @@ RSpec.describe Faq, type: :model do
 
   describe 'Validation' do
     describe '#question' do
-      subject { FactoryBot.build :faq, :question => question }
-
-      context 'when < 3 chars' do
-        let(:question) { 'a?' }
-        it { is_expected.not_to be_valid }
-      end
-      
-      context 'when > 140 characters' do
-        let(:question) do
-          <<-HEREDOC 
-            This question must be greater than 140 characters, it is a reasonable amount of characters 
-            that should be used by other applications for the same purposes, don't you think?
-          HEREDOC
-        end
-        it { is_expected.not_to be_valid }
-      end
-
-      context 'when doesn\'t end in a question mark' do
-        let(:question) { 'Do you know what the value of pi is.' }
-        it { is_expected.not_to be_valid }
-      end
+      it_behaves_like 'question', :faq, :question
     end
     
     describe '#answer' do
@@ -45,54 +25,38 @@ RSpec.describe Faq, type: :model do
     end
 
     describe '#module_id' do
-      subject { FactoryBot.build :faq, :module_id => module_id }
-
-      context 'when includes lowercase letters' do
-        let(:module_id) { 'cm14523' }
-        it { is_expected.to be_valid.and have_attributes(:module_id => 'CM14523') }
-      end
-
-      context 'when not present' do
-        let(:module_id) { nil }
-        it { is_expected.not_to be_valid }
-      end
+      it_behaves_like 'id', :faq, 'module'
     end
 
     describe '#lecturer_id' do
-      subject { FactoryBot.build :faq, :lecturer_id => lecturer_id }
-
-      context 'when includes lowercase letters' do
-        let(:lecturer_id) { 'abedtr24ws' }
-        it { is_expected.to be_valid.and have_attributes(:lecturer_id => 'ABEDTR24WS') }
-      end
-
-      context 'when not present' do
-        let(:lecturer_id) { nil }
-        it { is_expected.not_to be_valid }
-      end
+      it_behaves_like 'id', :faq, 'lecturer'
     end
 
-    describe '(#question, #module_id)' do
-      subject { FactoryBot.build :faq, :question => question, :module_id => module_id }
+    describe '#coursework_id' do
+      it_behaves_like 'id', :faq, 'coursework'
+    end
+
+    describe '(#question, #coursework_id)' do
+      subject { FactoryBot.build :faq, :question => question, :coursework_id => coursework_id }
 
       context 'when not unique' do
         let(:question) { 'This is a previously asked question?' }
-        let (:module_id) { 'CM234' }
-        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :module_id => module_id }
+        let (:coursework_id) { 'CM234' }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :coursework_id => coursework_id }
         it { is_expected.not_to be_valid }
       end
 
       context 'when only #question unique' do
-        let (:module_id) { 'CM234' }
+        let (:coursework_id) { 'CM234' }
         let (:question) { 'unique question?' }
-        let!(:non_unique_faq) { FactoryBot.create :faq, :question => 'unique too?', :module_id => module_id }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => 'unique too?', :coursework_id => coursework_id }
         it { is_expected.to be_valid }
       end
 
-      context 'when only #module_id unique' do
-        let (:module_id) { 'CM234' }
+      context 'when only #coursework_id unique' do
+        let (:coursework_id) { 'CM234' }
         let (:question) { 'reused question?' }
-        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :module_id => 'CM435' }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :coursework_id => 'CM435' }
         it { is_expected.to be_valid }
       end
     end

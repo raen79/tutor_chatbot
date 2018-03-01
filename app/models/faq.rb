@@ -3,12 +3,14 @@ class Faq < ApplicationRecord
   before_validation :upcase_id
 
   has_and_belongs_to_many :synonyms
-
-  validates :question, :length => { :minimum => 3, :maximum => 140 }, :uniqueness => { :case_insensitive => false, :scope => :module_id }
+ 
+  validates :question,
+            :uniqueness => { :case_insensitive => false, :scope => :coursework_id },
+            :question => { :attr => :question }
   validates :answer, :length => { :minimum => 3 }
   validates :lecturer_id, :presence => true
   validates :module_id, :presence => true
-  validate :question_must_end_with_question_mark
+  validates :coursework_id, :presence => true
 
   def self.find_answer(question, module_id)
     return 'Your question must be greater than or equal to 3 characters.' if question.length < 3
@@ -44,12 +46,10 @@ class Faq < ApplicationRecord
     end
 
     def upcase_id
-      if !lecturer_id.blank? && lecturer_id.kind_of?(String)
-        lecturer_id.upcase!
-      end
-
-      if !module_id.blank? && module_id.kind_of?(String)
-        module_id.upcase!
+      [:lecturer_id, :module_id, :coursework_id].each do |attribute|
+        if !self[attribute].blank? && self[attribute].kind_of?(String)
+          self[attribute].upcase!
+        end
       end
     end
 end
