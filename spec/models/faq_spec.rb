@@ -44,6 +44,59 @@ RSpec.describe Faq, type: :model do
       end
     end
 
+    describe '#module_id' do
+      subject { FactoryBot.build :faq, :module_id => module_id }
+
+      context 'when includes lowercase letters' do
+        let(:module_id) { 'cm14523' }
+        it { is_expected.to be_valid.and have_attributes(:module_id => 'CM14523') }
+      end
+
+      context 'when not present' do
+        let(:module_id) { nil }
+        it { is_expected.not_to be_valid }
+      end
+    end
+
+    describe '#lecturer_id' do
+      subject { FactoryBot.build :faq, :lecturer_id => lecturer_id }
+
+      context 'when includes lowercase letters' do
+        let(:lecturer_id) { 'abedtr24ws' }
+        it { is_expected.to be_valid.and have_attributes(:lecturer_id => 'ABEDTR24WS') }
+      end
+
+      context 'when not present' do
+        let(:lecturer_id) { nil }
+        it { is_expected.not_to be_valid }
+      end
+    end
+
+    describe '(#question, #module_id)' do
+      subject { FactoryBot.build :faq, :question => question, :module_id => module_id }
+
+      context 'when not unique' do
+        let(:question) { 'This is a previously asked question?' }
+        let (:module_id) { 'CM234' }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :module_id => module_id }
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'when only #question unique' do
+        let (:module_id) { 'CM234' }
+        let (:question) { 'unique question?' }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => 'unique too?', :module_id => module_id }
+        it { is_expected.to be_valid }
+      end
+
+      context 'when only #module_id unique' do
+        let (:module_id) { 'CM234' }
+        let (:question) { 'reused question?' }
+        let!(:non_unique_faq) { FactoryBot.create :faq, :question => question, :module_id => 'CM435' }
+        it { is_expected.to be_valid }
+      end
+    end
+
     context 'when valid' do
       subject { FactoryBot.create :faq, :question => 'Do you know if this film is available in color?' }
       it { expect { subject }.to change { Faq.count }.by(1) }
@@ -83,7 +136,7 @@ RSpec.describe Faq, type: :model do
                         :answer => 'Yes, but you\'ll never know'
     end
 
-    subject { Faq.find_answer(user_question) }
+    subject { Faq.find_answer(user_question, expected_faq.module_id) }
 
     context 'when user\'s question < 3 chars' do
       let(:user_question) { 'a?' }

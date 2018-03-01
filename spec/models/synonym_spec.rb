@@ -5,7 +5,7 @@ RSpec.describe Synonym, type: :model do
     describe '#word' do
       let!(:synonym) { FactoryBot.create :synonym, :word => 'Test' }
       subject { FactoryBot.build :synonym, :word => word }
-      
+
       context 'when not unique' do
         let(:word) { 'test' }
         it { is_expected.not_to be_valid }
@@ -37,6 +37,7 @@ RSpec.describe Synonym, type: :model do
     end
 
     context 'when not valid' do
+      let!(:non_unique_synonym) { FactoryBot.create :synonym, :word => 'a' }
       subject { FactoryBot.create :synonym, :word => 'a' }
       it { expect { subject }.to raise_error(ActiveRecord::RecordInvalid).and change { Synonym.count }.by(0) }
     end
