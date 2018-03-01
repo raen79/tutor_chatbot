@@ -19,7 +19,7 @@ class User
         :last_name => 'Peer',
         :email => 'peere@cardiff.ac.uk',
         :lecturer_id => 'C1529373'
-      )      
+      )
     end
   end
 end

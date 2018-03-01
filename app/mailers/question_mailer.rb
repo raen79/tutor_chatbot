@@ -1,0 +1,2 @@
+class QuestionMailer < ApplicationMailer
+end
