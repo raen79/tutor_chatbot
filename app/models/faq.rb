@@ -15,15 +15,13 @@ class Faq < ApplicationRecord
     tagger = EngTagger::Synonyms.new(question)
     possible_answers = []
 
-    tagger.get_relevant_words.each do |word|
-      faqs = Faq.joins(:synonyms).where("'#{word}' = ANY (synonyms.words) OR synonyms.word = '#{word}'")
-      answers = faqs.map { |faq| faq.answer }
+    tagger.get_relevant_words.combination(2).each do |first_word, second_word|
+      faqs = Faq.joins(:synonyms)
+                .where("'#{first_word}' = ANY (synonyms.words) OR synonyms.word = '#{first_word}'") &
+             Faq.joins(:synonyms)
+                .where("'#{second_word}' = ANY (synonyms.words) OR synonyms.word = '#{second_word}'")
 
-      if (possible_answers & answers).blank?
-        possible_answers = possible_answers | answers
-      else
-        possible_answers = possible_answers & answers
-      end
+      possible_answers = possible_answers | faqs.pluck(:answer)
     end
     
     possible_answers
