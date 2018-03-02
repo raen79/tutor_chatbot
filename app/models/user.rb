@@ -8,10 +8,10 @@ class User
     @lecturer_id = lecturer_id
   end
 
-  def self.find_by(lecturer_id: nil, email: nil)
-    if lecturer_id == 'BLANK'
+  def self.find_by(lecturer_id: nil, email: nil, student_id: nil)
+    if [lecturer_id, student_id].include? 'BLANK'
       raise ActiveRecord::RecordNotFound
-    elsif lecturer_id.blank? && email.blank?
+    elsif lecturer_id.blank? && student_id.blank? && email.blank?
       raise ActiveRecord::RecordNotFound
     else
       User.new(

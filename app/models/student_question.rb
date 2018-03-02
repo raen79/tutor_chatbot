@@ -10,22 +10,18 @@ class StudentQuestion < ApplicationRecord
   def answer(answer)
     raise ArgumentError, 'answer should be >= 3' if answer.length < 3
 
-    begin
-      ActiveRecord::Base.transaction do
-        Faq.create!(
-          :question => self.text,
-          :answer => answer,
-          :module_id => self.module_id,
-          :lecturer_id => self.lecturer_id,
-          :coursework_id => self.coursework_id
-        )
-        self.destroy!
-      end
-
-      true
-    rescue
-      false
+    ActiveRecord::Base.transaction do
+      @faq = Faq.create!(
+        :question => self.text,
+        :answer => answer,
+        :module_id => self.module_id,
+        :lecturer_id => self.lecturer_id,
+        :coursework_id => self.coursework_id
+      )
+      self.destroy!
     end
+
+    @faq
   end
 
   private
