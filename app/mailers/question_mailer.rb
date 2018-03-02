@@ -10,7 +10,8 @@ class QuestionMailer < ApplicationMailer
     )
   end
 
-  def self.receive_answer
+  def self.receive_answers
+    puts "hello"
     Mail.all.each do |mail|
       student_question_id = mail.subject[/SQ#(.*?) \| /, 1].to_i
       student_question = StudentQuestion.find(student_question_id)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionMailer, type: :mailer do
-  describe '.ask_lecturer' do
+  describe '#ask_lecturer' do
     before(:each) do
       allow(User).to receive(:find_by).with(:lecturer_id => 'C1529373').and_return(User.new(:email => 'peere@cardiff.ac.uk'))
     end
@@ -29,7 +29,8 @@ RSpec.describe QuestionMailer, type: :mailer do
     end
   end
 
-  describe '.receive_answer' do
+  # TODO: Send email to student
+  describe '.receive_answers' do
     before(:each) do
       allow(User).to receive(:find_by).with(:email => 'peere@cardiff.ac.uk').and_return(User.new(:lecturer_id => 'C1529373'))
       allow(Datamuse).to receive(:words).and_return([{ 'word' => 'test' }])
@@ -51,7 +52,7 @@ RSpec.describe QuestionMailer, type: :mailer do
       FactoryBot.create :student_question, :id => 670, :lecturer_id => 'C1529373'
     end
 
-    subject { QuestionMailer.receive_answer }
+    subject { QuestionMailer.receive_answers }
 
     it { expect { subject }.to change { StudentQuestion.count }.by(-2) }
     it { expect { subject }.to change { Faq.count }.by(2) }
