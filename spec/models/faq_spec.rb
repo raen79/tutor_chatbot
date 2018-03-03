@@ -88,6 +88,10 @@ RSpec.describe Faq, type: :model do
           [{ 'word' => 'panchromatic', 'score' => 97284,'tags' => ['syn','adj'] }]
         when 'available'
           [{ 'word' => 'availability', 'score' => 97284,'tags' => ['syn','adj'] }]
+        when 'panchromatic'
+          [{ 'word' => 'color', 'score' => 97284,'tags' => ['syn','adj'] }]
+        when 'availability'
+          [{ 'word' => 'available', 'score' => 97284,'tags' => ['syn','adj'] }]
         else
           []
         end
@@ -100,7 +104,15 @@ RSpec.describe Faq, type: :model do
                         :answer => 'Yes, but you\'ll never know'
     end
 
-    subject { Faq.find_answer(user_question, expected_faq.module_id) }
+    subject { 
+      Faq.find_answer(
+        :question => user_question,
+        :module_id => expected_faq.module_id,
+        :coursework_id => expected_faq.coursework_id,
+        :student_id => 'C1529373',
+        :lecturer_id => 'C1529372'
+      ) 
+    }
 
     context 'when user\'s question < 3 chars' do
       let(:user_question) { 'a?' }
@@ -123,8 +135,28 @@ RSpec.describe Faq, type: :model do
     end
 
     context 'when user\'s question is valid' do
-      let(:user_question) { 'Are you aware of this movie\'s availability in color?' }
-      it { is_expected.to eq(['Yes, but you\'ll never know']) }
+      context 'and multiple answers are found' do
+        let!(:expected_faq2) do
+          FactoryBot.create :faq,
+                            :question => 'Do you know this film\'s panchromatic availability?',
+                            :answer => 'Not 100% sure.'
+        end
+        let(:user_question) { 'Are you aware of this movie\'s availability in color?' }
+        it { is_expected.to include('I have found multiple answers to your question:') }
+        it { is_expected.to include(expected_faq.answer) }
+        it { is_expected.to include(expected_faq2.answer) }
+      end
+
+      context 'and one answer is found' do
+        let(:user_question) { 'Are you aware of this movie\'s availability in color?' }
+        it { is_expected.to eq(expected_faq.answer) }
+      end
+
+      context 'and no answer is found' do
+        let(:user_question) { 'This is totally random?' }
+        it { is_expected.to eq('I have found no answer to your question, I\'ll ask my supervisor and reply to you by email.') }
+        it { expect { subject }.to change { StudentQuestion.count }.by(1) }
+      end
     end
   end
 end

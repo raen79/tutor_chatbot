@@ -1,7 +1,7 @@
 class EngTagger::Synonyms < EngTagger
   def initialize(sentence)
     super()
-    @tagged_sentence = add_tags(sentence)
+    @tagged_sentence = add_tags(sentence.downcase)
   end
 
   def get_relevant_words

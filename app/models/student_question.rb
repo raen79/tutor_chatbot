@@ -32,4 +32,6 @@ class StudentQuestion < ApplicationRecord
         end
       end
     end
+
+    # TODO: After save, send email to lecturer
 end
