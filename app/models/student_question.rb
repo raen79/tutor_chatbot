@@ -1,5 +1,6 @@
 class StudentQuestion < ApplicationRecord
   before_validation :upcase_id
+  before_create :contact_lecturer
 
   validates :text, :question => true
   validates :lecturer_id, :presence => true
@@ -33,5 +34,7 @@ class StudentQuestion < ApplicationRecord
       end
     end
 
-    # TODO: After save, send email to lecturer
+    def contact_lecturer
+      QuestionMailer.ask_lecturer(self).deliver_now
+    end
 end

@@ -21,6 +21,11 @@ RSpec.describe StudentQuestion, type: :model do
     describe '#module_id' do
       it_behaves_like 'id', :student_question, 'module'
     end
+
+    context 'after create' do
+      subject { FactoryBot.create :student_question }
+      it { expect { subject }.to change { ActionMailer::Base.deliveries.count }.by(1) }
+    end
   end
 
   describe '#answer' do
