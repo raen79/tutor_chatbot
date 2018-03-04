@@ -6,6 +6,7 @@ FactoryBot.define do
     module_id "CM32546"
     student_id "C1529372"
   end
+  
   factory :synonym do
     word "MyString"
     words ["Word1", "Word2"]

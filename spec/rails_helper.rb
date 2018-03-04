@@ -27,6 +27,7 @@ require 'rspec/rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 Dir[Rails.root.join("spec/support/shared_examples/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/concerns/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
