@@ -9,11 +9,15 @@ if ['development', 'production'].include? Rails.env
     scheduler = Rufus::Scheduler.new
 
     scheduler.in '1s' do
-      QuestionMailer.receive_answers
+      QuestionMailer.receive_answers.each do |mail|
+        mail.deliver_now
+      end
     end
 
     scheduler.every '5m' do
-      QuestionMailer.receive_answers
+      QuestionMailer.receive_answers.each do |mail|
+        mail.deliver_now
+      end
     end
 
     scheduler.join
