@@ -11,12 +11,26 @@ class User
     @student_id = student_id
   end
 
+  def faqs
+    Faq.where(:lecturer_id => @lecturer_id)
+  end
+
   def student?
     !@student_id.blank?
   end
 
   def lecturer?
     !@lecturer_id.blank?
+  end
+
+  def attributes
+    {
+      :first_name => first_name,
+      :last_name => last_name,
+      :email => email,
+      :lecturer_id => lecturer_id,
+      :student_id => student_id
+    }
   end
 
   class << self

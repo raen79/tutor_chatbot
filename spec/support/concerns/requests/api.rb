@@ -8,7 +8,7 @@ module API
       'CONTENT_TYPE' => 'application/json',
       'ACCEPT' => 'application/json',
       'HTTP_ACCEPT' => 'application/json',
-      'Authentication' => jwt_token(user_attributes)
+      'Authorization' => jwt_token(user_attributes)
     }
   end
 
@@ -20,6 +20,10 @@ module API
       :lecturer_id => 'C1529345',
       :student_id => nil
     }
+  end
+
+  def attributes_of(instance)
+    a_hash_including(instance.attributes.except('created_at', 'updated_at'))
   end
 
   def jwt_token(user_attributes)
