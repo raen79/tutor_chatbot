@@ -11,6 +11,14 @@ class User
     @student_id = student_id
   end
 
+  def student?
+    !@student_id.blank?
+  end
+
+  def lecturer?
+    !@lecturer_id.blank?
+  end
+
   class << self
     private :new
 

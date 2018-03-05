@@ -41,4 +41,36 @@ RSpec.describe User do
       it { is_expected.to be_a(User) }
     end
   end
+
+  describe '#lecturer?' do
+    let(:jwt) { jwt_token(attributes) }
+    let(:user) { User.find_by(:jwt => jwt) }
+    subject { user.lecturer? }
+    
+    context 'when user is not a lecturer' do
+      let(:attributes) { user_attributes.merge({:lecturer_id => nil}) }
+      it { is_expected.to be_falsy }
+    end
+
+    context 'when user is a lecturer' do
+      let(:attributes) { user_attributes.merge({:lecturer_id => 'C1529373'}) }
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#student?' do
+    let(:jwt) { jwt_token(attributes) }
+    let(:user) { User.find_by(:jwt => jwt) }
+    subject { user.student? }
+    
+    context 'when user is not a student' do
+      let(:attributes) { user_attributes.merge({:student_id => nil}) }
+      it { is_expected.to be_falsy }
+    end
+
+    context 'when user is a student' do
+      let(:attributes) { user_attributes.merge({:student_id => 'C1529373'}) }
+      it { is_expected.to be_truthy }
+    end
+  end
 end
