@@ -31,6 +31,16 @@ class FaqsController < ApplicationController
     @faq.destroy
   end
 
+  def find_answer
+    @answer = Faq.find_answer(
+      :question => params[:question],
+      :student_id => current_user.student_id,
+      :lecturer_id => params[:lecturer_id],
+      :module_id => params[:module_id],
+      :coursework_id => params[:coursework_id]
+    )
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_faq

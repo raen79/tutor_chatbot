@@ -29,5 +29,8 @@ RSpec.describe FaqsController, type: :routing do
       expect(:delete => 'coursework/1/faqs/1').to route_to('faqs#destroy', :id => '1', :coursework_id => '1')
     end
 
+    it 'routes to #find_answer' do
+      expect(:get => 'coursework/1/find_answer?question=test').to route_to('faqs#find_answer', :coursework_id => '1', :question => 'test')
+    end
   end
 end

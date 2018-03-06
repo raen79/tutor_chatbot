@@ -65,12 +65,12 @@ RSpec.describe 'Faqs', type: :request do
     end      
   end
 
-  describe 'PUT /coursework/:coursework_id/faq/:id' do
+  describe 'PUT /coursework/:coursework_id/faqs/:id' do
     let(:faq) { FactoryBot.create :faq, :question => 'An old question?', :lecturer_id => user_attributes[:lecturer_id] }
     let!(:request) do
       put faq_path(:coursework_id => faq.coursework_id, :id => faq.id),
-           :params => { :faq => faq_attrs },
-           :headers => default_headers
+          :params => { :faq => faq_attrs },
+          :headers => default_headers
     end
 
     subject { JSON.parse(response.body) }
@@ -95,7 +95,7 @@ RSpec.describe 'Faqs', type: :request do
     end
   end
 
-  describe 'DELETE /coursework/:coursework_id/faq/:id' do
+  describe 'DELETE /coursework/:coursework_id/faqs/:id' do
     let(:faq) { FactoryBot.create :faq, :lecturer_id => user_attributes[:lecturer_id] }
     let(:request) do
       delete faq_path(:coursework_id => faq.coursework_id, :id => faq.id),
@@ -113,6 +113,52 @@ RSpec.describe 'Faqs', type: :request do
       let(:faq) { FactoryBot.build :faq, :id => 100, :lecturer_id => user_attributes[:lecturer_id] }
       it { request; expect(response).to have_http_status(:not_found) }
       it { expect { request }.to change { Faq.count }.by(0) }
+    end
+  end
+  
+  describe 'GET /coursework/:coursework_id/faqs/find_answer' do
+    before(:each) do
+      allow(Datamuse).to receive(:words) do |opts|
+        case opts[:ml]
+        when 'film'
+          [{ 'word' => 'movie', 'score' => 56808, 'tags' => ['syn', 'n'] }]
+        when 'color'
+          [{ 'word' => 'panchromatic', 'score' => 97284,'tags' => ['syn','adj'] }]
+        when 'available'
+          [{ 'word' => 'availability', 'score' => 97284,'tags' => ['syn','adj'] }]
+        else
+          []
+        end
+      end
+    end
+
+    let(:question) { 'test?' }
+    let!(:faq) { FactoryBot.create :faq, :question => 'This film is available in color?' }
+    let(:request) do
+      get find_answer_path(
+            :coursework_id => faq.coursework_id,
+            :module_id => faq.module_id,
+            :lecturer_id => faq.lecturer_id,
+            :question => question
+          ),
+          :headers => default_headers
+    end
+
+    subject { JSON.parse(response.body) }
+
+    it { request; expect(response).to have_http_status(:ok) }
+    it { request; is_expected.to include('answer') }
+
+    context 'when faq found' do
+      let(:question) { 'This movie availability panchromatic?' }
+      before { request }
+      it { is_expected.to include('answer' => faq.answer) }
+    end
+
+    context 'when faq not found' do
+      let(:question) { 'This is totally random?' }
+      it { request; is_expected.to include('answer' => 'I have found no answer to your question, I\'ll ask my supervisor and reply to you by email.') }
+      it { expect { request }.to change { ActionMailer::Base.deliveries.size }.by(1) }
     end
   end
 end

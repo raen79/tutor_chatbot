@@ -17,12 +17,12 @@ module API
       :last_name => 'Peer',
       :email => 'eran.peer79@gmail.com',
       :lecturer_id => 'C1529345',
-      :student_id => nil
+      :student_id => 'C1529373'
     }
   end
 
   def a_hash_of(instance)
-    a_hash_including(instance.attributes.except('created_at', 'updated_at'))
+    a_hash_including instance.attributes.except('created_at', 'updated_at')
   end
 
   def attributes_of(instance)
