@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionMailer, type: :mailer do
   describe '#ask_lecturer' do
     before(:each) do
-      allow(User).to receive(:find_by).with(:lecturer_id => 'C1529373').and_return(User.new(:email => 'peere@cardiff.ac.uk'))
+      allow(User).to receive(:find_by).with(:lecturer_id => 'C1529373').and_return(User.send(:new, :email => 'peere@cardiff.ac.uk'))
     end
 
     subject(:question_mailer) { QuestionMailer.ask_lecturer(student_question) }
@@ -32,7 +32,7 @@ RSpec.describe QuestionMailer, type: :mailer do
   
   describe '#receive_answer' do
     before(:each) do
-      allow(User).to receive(:find_by).and_return(User.new(:email => 'peere@cardiff.ac.uk'))
+      allow(User).to receive(:find_by).and_return(User.send(:new, :email => 'peere@cardiff.ac.uk'))
       allow(Datamuse).to receive(:words).and_return([{ 'word' => 'test' }])
     end
 
@@ -74,7 +74,7 @@ RSpec.describe QuestionMailer, type: :mailer do
 
   describe '.receive_answers' do
     before(:each) do
-      allow(User).to receive(:find_by).and_return(User.new(:email => 'peere@cardiff.ac.uk'))
+      allow(User).to receive(:find_by).and_return(User.send(:new, :email => 'peere@cardiff.ac.uk'))
       allow(Datamuse).to receive(:words).and_return([{ 'word' => 'test' }])
       allow(Mail).to receive(:all)
                  .and_return([Mail.new {

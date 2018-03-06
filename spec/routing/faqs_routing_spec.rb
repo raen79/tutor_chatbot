@@ -1,32 +1,32 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe FaqsController, type: :routing do
-  describe "routing" do
+  describe 'routing' do
 
-    it "routes to #index" do
-      expect(:get => "/faqs").to route_to("faqs#index")
+    it 'routes to #index' do
+      expect(:get => 'coursework/1/faqs').to route_to('faqs#index', :coursework_id => '1')
     end
 
 
-    it "routes to #show" do
-      expect(:get => "/faqs/1").to route_to("faqs#show", :id => "1")
+    it 'routes to #show' do
+      expect(:get => 'coursework/1/faqs/1').to route_to('faqs#show', :id => '1', :coursework_id => '1')
     end
 
 
-    it "routes to #create" do
-      expect(:post => "/faqs").to route_to("faqs#create")
+    it 'routes to #create' do
+      expect(:post => 'coursework/1/faqs').to route_to('faqs#create', :coursework_id => '1')
     end
 
-    it "routes to #update via PUT" do
-      expect(:put => "/faqs/1").to route_to("faqs#update", :id => "1")
+    it 'routes to #update via PUT' do
+      expect(:put => 'coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
     end
 
-    it "routes to #update via PATCH" do
-      expect(:patch => "/faqs/1").to route_to("faqs#update", :id => "1")
+    it 'routes to #update via PATCH' do
+      expect(:patch => 'coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
     end
 
-    it "routes to #destroy" do
-      expect(:delete => "/faqs/1").to route_to("faqs#destroy", :id => "1")
+    it 'routes to #destroy' do
+      expect(:delete => 'coursework/1/faqs/1').to route_to('faqs#destroy', :id => '1', :coursework_id => '1')
     end
 
   end

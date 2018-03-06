@@ -6,8 +6,9 @@ class Faq < ApplicationRecord
  
   validates :question,
             :uniqueness => { :case_insensitive => false, :scope => :coursework_id },
-            :question => { :attr => :question }
-  validates :answer, :length => { :minimum => 3 }
+            :question => { :attr => :question },
+            :presence => true
+  validates :answer, :length => { :minimum => 3 }, :presence => true
   validates :lecturer_id, :presence => true
   validates :module_id, :presence => true
   validates :coursework_id, :presence => true

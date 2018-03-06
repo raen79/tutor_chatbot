@@ -2,17 +2,18 @@ class FaqsController < ApplicationController
   before_action :set_faq, only: [:show, :update, :destroy]
 
   def index
-    @faqs = Faq.all
+    @faqs = faqs.where(:coursework_id => params[:coursework_id])
   end
 
   def show
   end
 
   def create
-    @faq = Faq.new(faq_params)
+    @faq = faqs.new(faq_params)
+    @faq.lecturer_id = current_user.lecturer_id
 
     if @faq.save
-      render :show, status: :created, location: @faq
+      render :show, status: :created, location: faq_url(:coursework_id => @faq.coursework_id, :id => @faq.id)
     else
       render json: @faq.errors, status: :unprocessable_entity
     end
@@ -20,7 +21,7 @@ class FaqsController < ApplicationController
 
   def update
     if @faq.update(faq_params)
-      render :show, status: :ok, location: @faq
+      render :show, status: :ok, location: faq_url(:coursework_id => @faq.coursework_id, :id => @faq.id)
     else
       render json: @faq.errors, status: :unprocessable_entity
     end
@@ -33,7 +34,15 @@ class FaqsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_faq
-      @faq = Faq.find(params[:id])
+      begin
+        @faq = faqs.find(params[:id])
+      rescue
+        head :not_found
+      end
+    end
+
+    def faqs
+      current_user.faqs
     end
 
     def faq_params

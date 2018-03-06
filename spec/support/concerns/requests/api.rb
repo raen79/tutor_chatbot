@@ -5,7 +5,6 @@ module API
 
   def default_headers
     {
-      'CONTENT_TYPE' => 'application/json',
       'ACCEPT' => 'application/json',
       'HTTP_ACCEPT' => 'application/json',
       'Authorization' => jwt_token(user_attributes)
@@ -22,8 +21,12 @@ module API
     }
   end
 
-  def attributes_of(instance)
+  def a_hash_of(instance)
     a_hash_including(instance.attributes.except('created_at', 'updated_at'))
+  end
+
+  def attributes_of(instance)
+    instance.attributes.except('created_at', 'updated_at')
   end
 
   def jwt_token(user_attributes)
