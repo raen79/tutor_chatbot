@@ -18,6 +18,7 @@ class QuestionMailer < ApplicationMailer
     mail(
       :from => ENV['GM_USER'],
       :to => student.email,
+      :reply_to => mail.from,
       :subject => "SQ##{student_question.id} | Your tutor has replied to your question"
     )
   end
