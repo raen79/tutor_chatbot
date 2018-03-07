@@ -99,7 +99,7 @@ Swaggard.configure do |config|
   config.models_paths = ["#{Rails.root}/app/models/**/*.rb"]
   config.controllers_path = "#{Rails.root}/app/controllers/**/*.rb"
   config.title = 'Tutor Chatbot'
-  config.api_base_path = 'https://tutor-chatbot.herokuapp.com/api'
+  config.api_base_path = 'tutor-chatbot.herokuapp.com/api'
   config.default_content_type = 'application/json'
   config.api_formats = [:json]
   config.use_cache = Rails.env.production?
