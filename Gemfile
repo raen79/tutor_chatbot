@@ -30,6 +30,7 @@ gem 'rubymuse'
 gem 'engtagger'
 gem 'rufus-scheduler'
 gem 'jwt'
+gem 'swaggard'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -41,6 +42,7 @@ group :development, :test do
   gem 'webmock'
   gem 'rspec-rails', '~> 3.7'
   gem 'dotenv-rails'
+  gem 'papers'
 end
 
 group :development do

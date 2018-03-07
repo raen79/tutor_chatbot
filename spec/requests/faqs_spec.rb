@@ -8,7 +8,7 @@ RSpec.describe 'Faqs', type: :request do
 
   let(:lecturer_id) { user_attributes[:lecturer_id] }
   
-  describe 'GET /coursework/:coursework_id/faqs' do
+  describe 'GET /api/coursework/:coursework_id/faqs' do
     let!(:faq_to_be_found) { FactoryBot.create :faq, :coursework_id => 'CW135', :lecturer_id => lecturer_id }
     let!(:faq_to_be_found2) { FactoryBot.create :faq, :question => 'New one?', :coursework_id => 'CW135', :lecturer_id => lecturer_id }
     let!(:faq_to_not_find) { FactoryBot.create :faq, :question => 'New one?', :coursework_id => 'CW132', :lecturer_id => lecturer_id }
@@ -22,14 +22,14 @@ RSpec.describe 'Faqs', type: :request do
     it { is_expected.not_to include a_hash_of(faq_to_not_find) }
   end
 
-  describe 'GET /coursework/:coursework_id/faqs/:id' do
+  describe 'GET /api/coursework/:coursework_id/faqs/:id' do
     let(:faq) { FactoryBot.create :faq, lecturer_id: lecturer_id }
     let!(:request) { get faq_path(:coursework_id => faq.coursework_id, :id => faq_id), :headers => default_headers }
     subject { JSON.parse(response.body) }
     
     context 'when faq exists' do
       let(:faq_id) { faq.id }
-      let(:faq_attrs) { attributes_of(faq).merge('url' => "http://#{@request.host}/coursework/#{faq.coursework_id}/faqs/#{faq.id}.json") }
+      let(:faq_attrs) { attributes_of(faq).merge('url' => "http://#{@request.host}/api/coursework/#{faq.coursework_id}/faqs/#{faq.id}.json") }
       it { expect(response).to have_http_status(:ok) }
       it { is_expected.to include(faq_attrs) }
     end
@@ -40,7 +40,7 @@ RSpec.describe 'Faqs', type: :request do
     end
   end
 
-  describe 'POST /coursework/:coursework_id/faqs' do
+  describe 'POST /api/coursework/:coursework_id/faqs' do
     let(:request) do
       post faqs_path(:coursework_id => faq_attrs[:coursework_id]),
            :params => { :faq => faq_attrs },
@@ -65,7 +65,7 @@ RSpec.describe 'Faqs', type: :request do
     end      
   end
 
-  describe 'PUT /coursework/:coursework_id/faqs/:id' do
+  describe 'PUT /api/coursework/:coursework_id/faqs/:id' do
     let(:faq) { FactoryBot.create :faq, :question => 'An old question?', :lecturer_id => user_attributes[:lecturer_id] }
     let!(:request) do
       put faq_path(:coursework_id => faq.coursework_id, :id => faq.id),
@@ -95,7 +95,7 @@ RSpec.describe 'Faqs', type: :request do
     end
   end
 
-  describe 'DELETE /coursework/:coursework_id/faqs/:id' do
+  describe 'DELETE /api/coursework/:coursework_id/faqs/:id' do
     let(:faq) { FactoryBot.create :faq, :lecturer_id => user_attributes[:lecturer_id] }
     let(:request) do
       delete faq_path(:coursework_id => faq.coursework_id, :id => faq.id),
@@ -116,7 +116,7 @@ RSpec.describe 'Faqs', type: :request do
     end
   end
   
-  describe 'GET /coursework/:coursework_id/faqs/find_answer' do
+  describe 'GET /api/coursework/:coursework_id/faqs/find_answer' do
     before(:each) do
       allow(Datamuse).to receive(:words) do |opts|
         case opts[:ml]

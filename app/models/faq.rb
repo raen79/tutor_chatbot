@@ -1,3 +1,12 @@
+# @attr [integer] id
+# @attr [string] question
+# @attr [string] answer
+# @attr [string] lecturer_id
+# @attr [string] module_id
+# @attr [string] coursework_id
+# @attr [date-time] created_at
+# @attr [date-time] updated_at
+
 class Faq < ApplicationRecord
   before_create :associate_synonyms
   before_validation :upcase_id

@@ -4,33 +4,33 @@ RSpec.describe FaqsController, type: :routing do
   describe 'routing' do
 
     it 'routes to #index' do
-      expect(:get => 'coursework/1/faqs').to route_to('faqs#index', :coursework_id => '1')
+      expect(:get => 'api/coursework/1/faqs').to route_to('faqs#index', :coursework_id => '1')
     end
 
 
     it 'routes to #show' do
-      expect(:get => 'coursework/1/faqs/1').to route_to('faqs#show', :id => '1', :coursework_id => '1')
+      expect(:get => 'api/coursework/1/faqs/1').to route_to('faqs#show', :id => '1', :coursework_id => '1')
     end
 
 
     it 'routes to #create' do
-      expect(:post => 'coursework/1/faqs').to route_to('faqs#create', :coursework_id => '1')
+      expect(:post => 'api/coursework/1/faqs').to route_to('faqs#create', :coursework_id => '1')
     end
 
     it 'routes to #update via PUT' do
-      expect(:put => 'coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
+      expect(:put => 'api/coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
     end
 
     it 'routes to #update via PATCH' do
-      expect(:patch => 'coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
+      expect(:patch => 'api/coursework/1/faqs/1').to route_to('faqs#update', :id => '1', :coursework_id => '1')
     end
 
     it 'routes to #destroy' do
-      expect(:delete => 'coursework/1/faqs/1').to route_to('faqs#destroy', :id => '1', :coursework_id => '1')
+      expect(:delete => 'api/coursework/1/faqs/1').to route_to('faqs#destroy', :id => '1', :coursework_id => '1')
     end
 
     it 'routes to #find_answer' do
-      expect(:get => 'coursework/1/find_answer?question=test').to route_to('faqs#find_answer', :coursework_id => '1', :question => 'test')
+      expect(:get => 'api/coursework/1/find_answer?question=test').to route_to('faqs#find_answer', :coursework_id => '1', :question => 'test')
     end
   end
 end

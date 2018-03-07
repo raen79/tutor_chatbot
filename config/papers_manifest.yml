@@ -1,0 +1,349 @@
+# Dependency Manifest for the Papers gem
+# Used to test your gems and javascript against license whitelist
+#
+# http://github.com/newrelic/papers
+---
+gems:
+  rake-12.3.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/ruby/rake
+  concurrent-ruby-1.0.5:
+    license: MIT
+    license_url: 
+    project_url: http://www.concurrent-ruby.com
+  i18n-0.9.5:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/svenfuchs/i18n
+  minitest-5.11.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/seattlerb/minitest
+  thread_safe-0.3.6:
+    license: Apache-2.0
+    license_url: 
+    project_url: https://github.com/ruby-concurrency/thread_safe
+  tzinfo-1.2.5:
+    license: MIT
+    license_url: 
+    project_url: http://tzinfo.github.io
+  activesupport-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  builder-3.2.3:
+    license: MIT
+    license_url: 
+    project_url: http://onestepback.org
+  erubi-1.7.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/jeremyevans/erubi
+  mini_portile2-2.3.0:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/flavorjones/mini_portile
+  nokogiri-1.8.2:
+    license: MIT
+    license_url: 
+    project_url: http://nokogiri.org
+  rails-dom-testing-2.0.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/rails-dom-testing
+  crass-1.0.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rgrove/crass/
+  loofah-2.2.0:
+    license: MIT
+    license_url: 
+    project_url: 
+  rails-html-sanitizer-1.0.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/rails-html-sanitizer
+  actionview-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  rack-2.0.4:
+    license: MIT
+    license_url: 
+    project_url: https://rack.github.io/
+  rack-test-0.8.3:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/rack-test/rack-test
+  actionpack-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  nio4r-2.2.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/socketry/nio4r
+  websocket-extensions-0.1.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/faye/websocket-extensions-ruby
+  websocket-driver-0.6.5:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/faye/websocket-driver-ruby
+  actioncable-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  globalid-0.4.1:
+    license: MIT
+    license_url: 
+    project_url: http://www.rubyonrails.org
+  activejob-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  mini_mime-1.0.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/discourse/mini_mime
+  mail-2.7.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/mikel/mail
+  actionmailer-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  activemodel-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  arel-8.0.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/arel
+  activerecord-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  public_suffix-3.0.2:
+    license: MIT
+    license_url: 
+    project_url: https://simonecarletti.com/code/publicsuffix-ruby
+  addressable-2.5.2:
+    license: Apache-2.0
+    license_url: 
+    project_url: https://github.com/sporkmonger/addressable
+  bundler:
+    license: MIT
+    license_url: 
+    project_url: http://bundler.io
+  method_source-0.9.0:
+    license: Unknown
+    license_url: 
+    project_url: http://banisterfiend.wordpress.com
+  thor-0.20.0:
+    license: MIT
+    license_url: 
+    project_url: http://whatisthor.com/
+  railties-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  sprockets-3.7.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/sprockets
+  sprockets-rails-3.2.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/sprockets-rails
+  rails-5.1.5:
+    license: MIT
+    license_url: 
+    project_url: http://rubyonrails.org
+  apipie-rails-0.5.6:
+    license: Unknown
+    license_url: 
+    project_url: http://github.com/Apipie/apipie-rails
+  byebug-10.0.0:
+    license: BSD-2-Clause
+    license_url: 
+    project_url: http://github.com/deivid-rodriguez/byebug
+  xpath-3.0.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/teamcapybara/xpath
+  capybara-2.18.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/teamcapybara/capybara
+  ffi-1.9.21:
+    license: BSD-3-Clause
+    license_url: 
+    project_url: http://wiki.github.com/ffi/ffi
+  childprocess-0.8.0:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/enkessler/childprocess
+  coderay-1.1.2:
+    license: MIT
+    license_url: 
+    project_url: http://coderay.rubychan.de
+  safe_yaml-1.0.4:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/dtao/safe_yaml
+  crack-0.4.3:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/jnunemaker/crack
+  diff-lcs-1.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/halostatue/diff-lcs
+  dotenv-2.2.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/bkeepers/dotenv
+  dotenv-rails-2.2.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/bkeepers/dotenv
+  engtagger-0.2.1:
+    license: Unknown
+    license_url: 
+    project_url: http://github.com/yohasebe/engtagger
+  et-orbi-1.0.9:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/floraison/et-orbi
+  factory_bot-4.8.2:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/thoughtbot/factory_bot
+  factory_bot_rails-4.8.2:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/thoughtbot/factory_bot_rails
+  hashdiff-0.3.7:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/liufengyun/hashdiff
+  multi_xml-0.6.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/sferik/multi_xml
+  httparty-0.16.0:
+    license: MIT
+    license_url: 
+    project_url: http://jnunemaker.github.com/httparty
+  multi_json-1.13.1:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/intridea/multi_json
+  jbuilder-2.7.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/jbuilder
+  json-2.1.0:
+    license: Ruby
+    license_url: 
+    project_url: http://flori.github.com/json
+  jwt-2.1.0:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/jwt/ruby-jwt
+  rb-fsevent-0.10.2:
+    license: MIT
+    license_url: 
+    project_url: http://rubygems.org/gems/rb-fsevent
+  rb-inotify-0.9.10:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/guard/rb-inotify
+  ruby_dep-1.5.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/e2/ruby_dep
+  listen-3.1.5:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/guard/listen
+  papers-2.4.2:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/newrelic/papers
+  pg-1.0.0:
+    license: BSD-3-Clause
+    license_url: 
+    project_url: https://bitbucket.org/ged/ruby-pg
+  pry-0.11.3:
+    license: MIT
+    license_url: 
+    project_url: http://pryrepl.org
+  pry-rails-0.3.6:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rweng/pry-rails
+  puma-3.11.2:
+    license: BSD-3-Clause
+    license_url: 
+    project_url: http://puma.io
+  rack-cors-1.0.2:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/cyu/rack-cors
+  rspec-support-3.7.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rspec/rspec-support
+  rspec-core-3.7.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rspec/rspec-core
+  rspec-expectations-3.7.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rspec/rspec-expectations
+  rspec-mocks-3.7.0:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rspec/rspec-mocks
+  rspec-rails-3.7.2:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rspec/rspec-rails
+  rubymuse-0.1.3:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/mosegontar/rubymuse
+  rubyzip-1.2.1:
+    license: BSD 2-Clause
+    license_url: 
+    project_url: http://github.com/rubyzip/rubyzip
+  rufus-scheduler-3.4.2:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/jmettraux/rufus-scheduler
+  selenium-webdriver-3.9.0:
+    license: Apache-2.0
+    license_url: 
+    project_url: https://github.com/seleniumhq/selenium
+  spring-2.0.2:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/rails/spring
+  spring-watcher-listen-2.0.1:
+    license: MIT
+    license_url: 
+    project_url: https://github.com/jonleighton/spring-watcher-listen
+  webmock-3.3.0:
+    license: MIT
+    license_url: 
+    project_url: http://github.com/bblimke/webmock
+javascripts: 
+bower_components: 
+npm_packages: 
