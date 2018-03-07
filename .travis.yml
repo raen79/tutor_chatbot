@@ -3,4 +3,5 @@ before_script:
   - psql -c 'create database tutor_chatbot_test;' -U postgres
 script:
   - RAILS_ENV=test bundle exec rake db:create
+  - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rspec
