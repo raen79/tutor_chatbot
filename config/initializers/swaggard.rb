@@ -95,13 +95,13 @@ Swaggard.configure do |config|
   # config.use_cache = false
 
   config.contact_name = "Eran Peer"
-  config.description = "Api for a tutor chatbot that can answer a student's answers for a certain coursework. Should include `Authorization`` header with a jwt token retrieved from an authentication service at each request."
+  config.description = "Api for a tutor chatbot that can answer a student's answers for a certain coursework. Should include `Authorization` header with a jwt token retrieved from an authentication service at each request."
   config.models_paths = ["#{Rails.root}/app/models/**/*.rb"]
   config.controllers_path = "#{Rails.root}/app/controllers/**/*.rb"
   config.title = 'Tutor Chatbot'
   config.api_base_path = 'https://tutor-chatbot.herokuapp.com/api'
   config.default_content_type = 'application/json'
   config.api_formats = [:json]
-  config.use_cache = false
+  config.use_cache = Rails.env.production?
   config.additional_parameters = [{ key: 'Authorization', type: 'header', value: 'insert jwt token here' }]
 end

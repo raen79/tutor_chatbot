@@ -7,7 +7,7 @@ class FaqsController < ApplicationController
   # @response_status 200
   # @response_root faqs
   # @response_class Array<Faq>
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def index
     @faqs = faqs.where(:coursework_id => params[:coursework_id])
   end
@@ -16,7 +16,7 @@ class FaqsController < ApplicationController
   # @response_status 200
   # @response_root faq
   # @response_class Faq
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def show
   end
 
@@ -25,7 +25,7 @@ class FaqsController < ApplicationController
   # @response_root faq
   # @response_class Faq
   # @body_parameter [Faq] faq
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def create
     @faq = faqs.new(faq_params)
     @faq.lecturer_id = current_user.lecturer_id
@@ -43,7 +43,7 @@ class FaqsController < ApplicationController
   # @response_root faq
   # @response_class Faq
   # @body_parameter [Faq] faq
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def update
     if @faq.update(faq_params)
       render :show, status: :ok, location: faq_url(:coursework_id => @faq.coursework_id, :id => @faq.id)
@@ -54,7 +54,7 @@ class FaqsController < ApplicationController
 
   # Deletes an FAQ
   # @response_status 204
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def destroy
     @faq.destroy
   end
@@ -65,7 +65,7 @@ class FaqsController < ApplicationController
   # @query_parameter [string] question
   # @query_parameter [string] lecturer_id
   # @query_parameter [string] module_id
-  # Should include Authorization header with a jwt token retrieved from an authentication service at each request.
+  # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def find_answer
     @answer = Faq.find_answer(
       :question => params[:question],
