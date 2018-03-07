@@ -43,6 +43,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.7'
   gem 'dotenv-rails'
   gem 'papers'
+  gem 'rake'
 end
 
 group :development do
