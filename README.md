@@ -1,7 +1,7 @@
 # Tutor Chatbot
 > A tutor chatbot microservice that esponds to student answers about coursework.
 
-[![Build Status](https://travis-ci.org/raen79/tutor_chatbot.svg?branch=master)](https://travis-ci.org/raen79/tutor_chatbot)
+[![Build Status](https://api.travis-ci.org/raen79/tutor_chatbot.svg?branch=master)](https://travis-ci.org/raen79/tutor_chatbot)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0976a8b00ba35bf8abbd/maintainability)](https://codeclimate.com/github/raen79/tutor_chatbot/maintainability)
 ## Getting Started
 ### Prerequisites
