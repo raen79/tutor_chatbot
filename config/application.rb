@@ -12,6 +12,7 @@ module TutorChatbot
     config.load_defaults 5.1
     config.api_only = true
     config.autoload_paths += Dir["#{config.root}/lib/gem_extensions/**/**"]
+    config.assets.initialize_on_precompile = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
