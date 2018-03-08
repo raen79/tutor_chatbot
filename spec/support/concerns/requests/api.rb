@@ -13,8 +13,6 @@ module API
 
   def user_attributes
     {
-      :first_name => 'Eran',
-      :last_name => 'Peer',
       :email => 'eran.peer79@gmail.com',
       :lecturer_id => 'C1529345',
       :student_id => 'C1529373'

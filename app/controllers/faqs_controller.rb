@@ -14,7 +14,6 @@ class FaqsController < ApplicationController
 
   # Returns an FAQ
   # @response_status 200
-  # @response_root faq
   # @response_class Faq
   # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
   def show
@@ -22,7 +21,6 @@ class FaqsController < ApplicationController
 
   # Creates an FAQ for a specific coursework
   # @response_status 201
-  # @response_root faq
   # @response_class Faq
   # @body_parameter [Faq] faq
   # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
@@ -40,7 +38,6 @@ class FaqsController < ApplicationController
 
   # Updates an FAQ
   # @response_status 201
-  # @response_root faq
   # @response_class Faq
   # @body_parameter [Faq] faq
   # Should include `Authorization` header with a jwt token retrieved from an authentication service at each request.
