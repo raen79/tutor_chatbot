@@ -16,8 +16,6 @@ RSpec.describe User do
 
     context 'when jwt is filled' do
       let(:attributes) { {
-        :first_name => 'A Name',
-        :last_name => 'Another Name',
         :email => 'eran.peer79@gmail.com',
         :lecturer_id => 'C1529344',
         :student_id => 'C452313562'

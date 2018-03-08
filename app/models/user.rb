@@ -1,11 +1,9 @@
 class User
-  attr_reader :first_name, :last_name, :email, :lecturer_id, :student_id
+  attr_reader :email, :lecturer_id, :student_id
 
   @public_key = OpenSSL::PKey::RSA.new(ENV['RSA_PUBLIC_KEY'].gsub('\n', "\n"))
 
-  def initialize(first_name: nil, last_name: nil, email: nil, lecturer_id: nil, student_id: nil)
-    @first_name = first_name
-    @last_name = last_name
+  def initialize(email: nil, lecturer_id: nil, student_id: nil)
     @email = email
     @lecturer_id = lecturer_id
     @student_id = student_id
@@ -25,8 +23,6 @@ class User
 
   def attributes
     {
-      :first_name => first_name,
-      :last_name => last_name,
       :email => email,
       :lecturer_id => lecturer_id,
       :student_id => student_id
@@ -72,8 +68,6 @@ class User
 
       def example_user
         new(
-          :first_name => 'Eran',
-          :last_name => 'Peer',
           :email => 'peere@cardiff.ac.uk',
           :lecturer_id => 'C1529373',
           :student_id => nil
