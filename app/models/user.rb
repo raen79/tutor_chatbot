@@ -1,9 +1,10 @@
 class User
-  attr_reader :email, :lecturer_id, :student_id
+  attr_reader :id, :email, :lecturer_id, :student_id
 
   @public_key = OpenSSL::PKey::RSA.new(ENV['RSA_PUBLIC_KEY'].gsub('\n', "\n"))
 
-  def initialize(email: nil, lecturer_id: nil, student_id: nil)
+  def initialize(id:, email:, lecturer_id: nil, student_id: nil)
+    @id = id
     @email = email
     @lecturer_id = lecturer_id
     @student_id = student_id
@@ -23,9 +24,10 @@ class User
 
   def attributes
     {
-      :email => email,
-      :lecturer_id => lecturer_id,
-      :student_id => student_id
+      :id => @id,
+      :email => @email,
+      :lecturer_id => @lecturer_id,
+      :student_id => @student_id
     }
   end
 
@@ -34,44 +36,30 @@ class User
 
     def find_by(lecturer_id: nil, email: nil, student_id: nil, jwt: nil)
       if !jwt.blank?
-        find_by_jwt(jwt)
+        initialize_from_hash(find_by_param(:jwt, jwt))
       elsif !student_id.blank?
-        find_by_student(student_id)
+        initialize_from_hash(find_by_param(:student_id, student_id))
       elsif !lecturer_id.blank?
-        find_by_lecturer(lecturer_id)
+        initialize_from_hash(find_by_param(:lecturer_id, lecturer_id))
       elsif !email.blank?
-        find_by_email(email)
-      else
-        raise ActiveRecord::RecordNotFound
+        initialize_from_hash(find_by_param(:email, email))
       end
     end
 
     private
-
-      def find_by_lecturer(lecturer_id)
-        example_user
-      end
-
-      def find_by_student(student_id)
-        example_user
-      end
-
-      def find_by_jwt(jwt)
-        decoded_jwt = JWT.decode jwt, @public_key, true, { :algorithm => 'RS512' }
-        user_attributes = decoded_jwt[0].symbolize_keys
-        new(user_attributes)
-      end
-
-      def find_by_email(email)
-        example_user
-      end
-
-      def example_user
+      def initialize_from_hash(user_hash)
         new(
-          :email => 'peere@cardiff.ac.uk',
-          :lecturer_id => 'C1529373',
-          :student_id => nil
+          :id => user_hash[:id],
+          :email => user_hash[:email],
+          :lecturer_id => user_hash[:lecturer_id],
+          :student_id => user_hash[:student_id]
         )
+      end
+
+      def find_by_param(param, value)
+        response = HTTParty.get("#{ENV['AUTH_URL']}/api/users?#{param}=#{value}")
+        parsed_body = JSON.parse(response.body)
+        parsed_body.extract!('id', 'email', 'lecturer_id', 'student_id').with_indifferent_access
       end
   end
 end

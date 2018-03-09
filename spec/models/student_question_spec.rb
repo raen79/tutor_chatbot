@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe StudentQuestion, type: :model do
+  before(:each) do
+    allow(HTTParty).to receive(:get).and_return(
+      double(HTTParty::Response, :body => {
+        :id => 1,
+        :email => 'peere@cardiff.ac.uk',
+        :student_id => 'C1529373',
+        :lecturer_id => 'C1529373'
+      }.to_json)
+    )
+  end
+  
   describe 'Validation' do
     describe '#text' do
       it_behaves_like 'question', :student_question, :text

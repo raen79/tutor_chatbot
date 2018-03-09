@@ -4,6 +4,15 @@ include API
 RSpec.describe 'Faqs', type: :request do
   before(:each) do
     allow(Datamuse).to receive(:words).and_return([])
+  
+    allow(HTTParty).to receive(:get).and_return(
+      double(HTTParty::Response, :body => {
+        :id => 1,
+        :email => 'peere@cardiff.ac.uk',
+        :student_id => 'C1529373',
+        :lecturer_id => lecturer_id
+      }.to_json)
+    )
   end
 
   let(:lecturer_id) { user_attributes[:lecturer_id] }

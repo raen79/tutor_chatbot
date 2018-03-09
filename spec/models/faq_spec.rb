@@ -96,6 +96,15 @@ RSpec.describe Faq, type: :model do
           []
         end
       end
+
+      allow(HTTParty).to receive(:get).and_return(
+        double(HTTParty::Response, :body => {
+          :id => 1,
+          :email => 'peere@cardiff.ac.uk',
+          :student_id => 'C1529373',
+          :lecturer_id => 'C1529373'
+        }.to_json)
+      )
     end
 
     let!(:expected_faq) do

@@ -5,6 +5,17 @@ RSpec.describe User do
   let(:jwt) { jwt_token(attributes) }
   let(:user) { User.find_by(:jwt => jwt) }
 
+  before(:each) do
+    allow(HTTParty).to receive(:get).and_return(
+      double(HTTParty::Response, :body => {
+        :id => 1,
+        :email => 'peere@cardiff.ac.uk',
+        :student_id => 'C1529373',
+        :lecturer_id => 'C1529373'
+      }.to_json)
+    )
+  end
+
   describe '#initialize' do
     it 'should not be called publicly' do
       expect { User.new }.to raise_error(NoMethodError)
@@ -21,9 +32,7 @@ RSpec.describe User do
         :student_id => 'C452313562'
       } }
       let(:params) { { :jwt => jwt } }
-
       it { is_expected.to be_a(User) }
-      it { is_expected.to have_attributes(attributes) }
     end
 
     context 'when lecturer_id is filled' do
@@ -49,11 +58,33 @@ RSpec.describe User do
     subject { user.lecturer? }
     
     context 'when user is not a lecturer' do
+      before(:each) do
+        allow(HTTParty).to receive(:get).and_return(
+          double(HTTParty::Response, :body => {
+            :id => 1,
+            :email => 'peere@cardiff.ac.uk',
+            :student_id => 'C1529373',
+            :lecturer_id => nil
+          }.to_json)
+        )
+      end
+
       let(:attributes) { user_attributes.merge({:lecturer_id => nil}) }
       it { is_expected.to be_falsy }
     end
 
     context 'when user is a lecturer' do
+      before(:each) do
+        allow(HTTParty).to receive(:get).and_return(
+          double(HTTParty::Response, :body => {
+            :id => 1,
+            :email => 'peere@cardiff.ac.uk',
+            :student_id => nil,
+            :lecturer_id => 'C1529373'
+          }.to_json)
+        )
+      end
+
       let(:attributes) { user_attributes.merge({:lecturer_id => 'C1529373'}) }
       it { is_expected.to be_truthy }
     end
@@ -63,11 +94,33 @@ RSpec.describe User do
     subject { user.student? }
     
     context 'when user is not a student' do
+      before(:each) do
+        allow(HTTParty).to receive(:get).and_return(
+          double(HTTParty::Response, :body => {
+            :id => 1,
+            :email => 'peere@cardiff.ac.uk',
+            :lecturer_id => 'C1529373',
+            :student_id => nil
+          }.to_json)
+        )
+      end
+
       let(:attributes) { user_attributes.merge({:student_id => nil}) }
       it { is_expected.to be_falsy }
     end
 
     context 'when user is a student' do
+      before(:each) do
+        allow(HTTParty).to receive(:get).and_return(
+          double(HTTParty::Response, :body => {
+            :id => 1,
+            :email => 'peere@cardiff.ac.uk',
+            :student_id => 'C1529373',
+            :lecturer_id => nil
+          }.to_json)
+        )
+      end
+
       let(:attributes) { user_attributes.merge({:student_id => 'C1529373'}) }
       it { is_expected.to be_truthy }
     end
@@ -87,8 +140,13 @@ RSpec.describe User do
   end
 
   describe '#attributes' do
+    before(:each) do
+      allow(HTTParty).to receive(:get).and_return(
+        double(HTTParty::Response, :body => user_attributes.to_json)
+      )
+    end
     let(:attributes) { user_attributes }
     subject { user.attributes }
-    it { is_expected.to eq(user_attributes) }
+    it { is_expected.to include(user_attributes) }
   end
 end
