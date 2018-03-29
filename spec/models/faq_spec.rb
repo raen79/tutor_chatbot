@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Faq, type: :model do
   before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+    
     datamuse_return_hash = [{ 'word' => 'tinnitus', 'score' => 51691, 'tags' => ['syn','n'] },
                             { 'word' => 'ring', 'score' => 28491, 'tags' => ['n'] },
                             { 'word' => 'cinchonism', 'score' => 28392, 'tags' => ['n'] },
