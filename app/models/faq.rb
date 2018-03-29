@@ -72,6 +72,9 @@ class Faq < ApplicationRecord
 
       tagger = EngTagger::Synonyms.new(question)
       tagger.get_relevant_words.combination(2).each do |first_word, second_word|
+        first_word = first_word.singularize
+        second_word = second_word.singularize
+
         faqs = Faq.joins(:synonyms)
                   .where(:coursework_id => coursework_id)
                   .where("'#{first_word}' = ANY (synonyms.words) OR synonyms.word = '#{first_word}'") &

@@ -12,6 +12,8 @@ class Synonym < ApplicationRecord
     tagger = EngTagger::Synonyms.new(sentence)
 
     tagger.get_relevant_words.uniq.map do |word|
+      word = word.singularize
+
       existing_synonyms = Synonym.where(:word => word)
 
       if existing_synonyms.blank?
