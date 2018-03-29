@@ -139,6 +139,8 @@ RSpec.describe 'Faqs', type: :request do
           []
         end
       end
+
+      ActiveJob::Base.queue_adapter = :test
     end
 
     let(:question) { 'test?' }
@@ -167,7 +169,7 @@ RSpec.describe 'Faqs', type: :request do
     context 'when faq not found' do
       let(:question) { 'This is totally random?' }
       it { request; is_expected.to include('answer' => 'I have found no answer to your question, I\'ll ask my supervisor and reply to you by email.') }
-      it { expect { request }.to change { ActionMailer::Base.deliveries.size }.by(1) }
+      it { expect { request }.to have_enqueued_job.on_queue('mailers') }
     end
   end
 end

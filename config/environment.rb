@@ -10,13 +10,13 @@ if ['development', 'production'].include? Rails.env
 
     scheduler.in '1s' do
       QuestionMailer.receive_answers.each do |mail|
-        mail.deliver_now
+        mail.deliver_later
       end
     end
 
     scheduler.every '5m' do
       QuestionMailer.receive_answers.each do |mail|
-        mail.deliver_now
+        mail.deliver_later
       end
     end
 

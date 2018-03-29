@@ -63,7 +63,7 @@ RSpec.describe QuestionMailer, type: :mailer do
     let(:to) { ['peere@cardiff.ac.uk'] }
     let(:from) { [ENV['GM_USER']] }
     let(:m_subject) { 'SQ#510 | Your tutor has replied to your question' }
-    subject(:question_mailer) { QuestionMailer.receive_answer(mail).deliver }
+    subject(:question_mailer) { QuestionMailer.receive_answer(mail.subject, mail.from, mail.decoded).deliver }
 
     it { expect { subject }.to change { StudentQuestion.count }.by(-1) }
     it { expect { subject }.to change { Faq.count }.by(1) }    

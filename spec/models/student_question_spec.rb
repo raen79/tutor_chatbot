@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe StudentQuestion, type: :model do
   before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+
     allow(HTTParty).to receive(:get).and_return(
       double(HTTParty::Response, :body => {
         :id => 1,
@@ -35,7 +37,7 @@ RSpec.describe StudentQuestion, type: :model do
 
     context 'after create' do
       subject { FactoryBot.create :student_question }
-      it { expect { subject }.to change { ActionMailer::Base.deliveries.count }.by(1) }
+      it { expect { subject }.to have_enqueued_job.on_queue('mailers') }
     end
   end
 
