@@ -69,12 +69,11 @@ class Faq < ApplicationRecord
 
     def self.possible_answers(question, coursework_id)
       possible_answers = []
-      lem = Lemmatizer.new
 
       tagger = EngTagger::Synonyms.new(question)
       tagger.get_relevant_words.combination(2).each do |first_word, second_word|
-        first_word = lem.lemma(first_word)
-        second_word = lem.lemma(second_word)
+        first_word = first_word.singularize
+        second_word = second_word.singularize
 
         faqs = Faq.joins(:synonyms)
                   .where(:coursework_id => coursework_id)
