@@ -33,6 +33,7 @@ gem 'jwt'
 gem 'swaggard'
 gem 'httparty'
 gem 'sidekiq'
+gem 'lemmatizer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
