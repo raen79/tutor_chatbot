@@ -75,12 +75,13 @@ class Faq < ApplicationRecord
         first_word = first_word.singularize
         second_word = second_word.singularize
 
+        ActiveRecord::Base.connection.execute("SELECT set_limit(0.8);")
         faqs = Faq.joins(:synonyms)
                   .where(:coursework_id => coursework_id)
-                  .where("'#{first_word}' = ANY (synonyms.words) OR synonyms.word = '#{first_word}'") &
+                  .where("? % ANY (synonyms.words) OR synonyms.word % ?", first_word, first_word) &
                Faq.joins(:synonyms)
                   .where(:coursework_id => coursework_id)
-                  .where("'#{second_word}' = ANY (synonyms.words) OR synonyms.word = '#{second_word}'")
+                  .where("? % ANY (synonyms.words) OR synonyms.word % ?", second_word, second_word)
   
         possible_answers = possible_answers | faqs.pluck(:answer)
       end
