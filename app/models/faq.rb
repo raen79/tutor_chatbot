@@ -75,7 +75,7 @@ class Faq < ApplicationRecord
         first_word = first_word.singularize
         second_word = second_word.singularize
 
-        ActiveRecord::Base.connection.execute("SELECT set_limit(0.8);")
+        ActiveRecord::Base.connection.execute("SELECT set_limit(0.2);")
         faqs = Faq.joins(:synonyms)
                   .where(:coursework_id => coursework_id)
                   .where("? % ANY (synonyms.words) OR synonyms.word % ?", first_word, first_word) &
