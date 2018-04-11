@@ -17,7 +17,7 @@ class EngTagger::Synonyms < EngTagger
   def get_nouns(sentence)
     words = super(sentence).keys
     words.map do |key|
-      @lem.lemma(key, :noun)
+      @lem.lemma(key)
     end
   end
 
@@ -28,7 +28,7 @@ class EngTagger::Synonyms < EngTagger
   def get_adjectives(sentence)
     words = super(sentence).keys
     words.map do |key|
-      @lem.lemma(key, :adj)
+      @lem.lemma(key)
     end
   end
 
