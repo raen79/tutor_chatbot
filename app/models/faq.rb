@@ -27,7 +27,7 @@ class Faq < ApplicationRecord
     return 'Your question must be lower than or equal to 140 characters.' if question.length > 140
     return 'Your question must end in a question mark.' unless question.last == '?'
     
-    @possible_answers = possible_answers(question, coursework_id)
+    @possible_answers = possible_answers(question, coursework_id).uniq
     
     case @possible_answers.size
       when 0

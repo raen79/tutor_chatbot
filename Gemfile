@@ -46,6 +46,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'papers'
   gem 'rake'
+  gem 'rails-erd', require: false
 end
 
 group :development do
