@@ -28,7 +28,7 @@ class Faq < ApplicationRecord
     return 'Your question must end in a question mark.' unless question.last == '?'
     
     @possible_answers = possible_answers(question, coursework_id).uniq
-    puts @possible_answers
+    
     case @possible_answers.size
       when 0
         StudentQuestion.create!(
