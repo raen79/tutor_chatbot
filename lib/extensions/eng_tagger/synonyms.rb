@@ -6,7 +6,6 @@ class EngTagger::Synonyms < EngTagger
 
   def get_relevant_words
     get_nouns(@tagged_sentence).keys +
-      get_proper_nouns(@tagged_sentence).keys +
       get_adjectives(@tagged_sentence).keys +
       get_cardinal_adjectives(@tagged_sentence)
   end

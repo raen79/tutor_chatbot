@@ -10,7 +10,6 @@ class QuestionMailer < ApplicationMailer
     )
   end
 
-  # TODO, test real gmail answer
   def receive_answer(subject, from, lecturer_reply)
     student_question = find_student_question_by_subject(subject)
     student = User.find_by(:student_id => student_question.student_id)
