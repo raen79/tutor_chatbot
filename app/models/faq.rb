@@ -9,6 +9,7 @@
 
 class Faq < ApplicationRecord
   before_create :associate_synonyms
+  before_update :associate_synonyms
   before_validation :upcase_id
 
   has_and_belongs_to_many :synonyms
