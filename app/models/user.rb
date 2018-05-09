@@ -1,8 +1,6 @@
 class User
   attr_reader :id, :email, :lecturer_id, :student_id
 
-  @public_key = OpenSSL::PKey::RSA.new(ENV['RSA_PUBLIC_KEY'].gsub('\n', "\n"))
-
   def initialize(id:, email:, lecturer_id: nil, student_id: nil)
     @id = id
     @email = email
